@@ -1,21 +1,55 @@
 .symbols-page {
-  padding-top: 5rem;
+  padding: 2rem 0 4rem;
+  background-color: $light-color;
+  min-height: 100vh;
 
   .page-header {
     text-align: center;
-    margin: 4rem 0 3rem;
+    margin: 2rem 0 3rem;
+    padding: 2rem;
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    
+    @include respond-to("medium") {
+      padding: 1.5rem;
+      margin: 1rem 0 2rem;
+    }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: $primary-color;
       margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+      
+      @include respond-to("medium") {
+        font-size: 2.2rem;
+      }
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: $accent-color;
+        border-radius: 3px;
+      }
     }
 
     .page-description {
       font-size: 1.2rem;
       color: $text-light;
       max-width: 700px;
-      margin: 0 auto;
+      margin: 1.5rem auto 0;
+      line-height: 1.6;
+      
+      @include respond-to("medium") {
+        font-size: 1.1rem;
+      }
     }
   }
 
@@ -24,8 +58,16 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-bottom: 3rem;
-
+    
+    @include respond-to("large") {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
     @include respond-to("medium") {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to("small") {
       grid-template-columns: 1fr;
     }
 
@@ -36,20 +78,38 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
       transition: transform $transition-speed ease;
+      border-top: 4px solid $primary-color;
 
       &:hover {
         transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      &:nth-child(2) {
+        border-top-color: $accent-color;
+        
+        .info-value {
+          color: $accent-color;
+        }
+      }
+      
+      &:nth-child(3) {
+        border-top-color: $secondary-color;
+        
+        .info-value {
+          color: darken($secondary-color, 30%);
+        }
       }
 
       h3 {
         font-size: 1.2rem;
         color: $text-color;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
       }
 
       .info-value {
         font-size: 2.5rem;
-        font-weight: 600;
+        font-weight: 700;
         color: $primary-color;
         margin: 0;
       }
@@ -59,49 +119,83 @@
   .view-options {
     @include flex(row, flex-end, center);
     margin-bottom: 2rem;
+    background-color: white;
+    padding: 1rem;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    @include respond-to("medium") {
+      justify-content: center;
+    }
 
     .view-btn {
       background-color: $light-color;
       border: 1px solid $border-color;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
       border-radius: $border-radius;
       margin-left: 1rem;
       transition: all $transition-speed ease;
+      font-weight: 600;
+      
+      &:first-child {
+        margin-left: 0;
+      }
 
       &:hover {
         background-color: darken($light-color, 5%);
+        transform: translateY(-2px);
       }
 
       &.active {
         background-color: $primary-color;
         color: white;
         border-color: $primary-color;
+        box-shadow: 0 2px 4px rgba($primary-color, 0.3);
       }
     }
   }
 
   .symbols-container {
+    margin: 2rem 0;
+    
     &.list {
       .symbols-grid {
         grid-template-columns: 1fr;
+        max-width: 800px;
+        margin: 0 auto;
       }
     }
   }
 
   .symbol-reference-info {
     margin-top: 4rem;
-    background-color: $light-color;
+    background-color: white;
     border-radius: $border-radius;
     padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid $primary-color;
 
     h3 {
       color: $primary-color;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      position: relative;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background-color: $accent-color;
+      }
     }
 
     p {
-      line-height: 1.7;
+      line-height: 1.8;
       color: $text-color;
+      font-size: 1.1rem;
     }
   }
 }
