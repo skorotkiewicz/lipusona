@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const SymbolCard = ({
   symbol,
@@ -8,6 +8,8 @@ const SymbolCard = ({
 }) => {
   const [flipped, setFlipped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
 
   const handleClick = () => {
     if (interactive) {
@@ -16,6 +18,27 @@ const SymbolCard = ({
     } else if (!showTranslation) {
       setShowDetails(!showDetails);
     }
+  };
+
+  const playPronunciation = (e) => {
+    e.stopPropagation(); // Prevent card flip when clicking the audio button
+
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      } else {
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Handle audio end event
+  const handleAudioEnd = () => {
+    setIsPlaying(false);
   };
 
   return (
@@ -32,6 +55,18 @@ const SymbolCard = ({
             />
           </div>
           <h3 className="symbol-word">{symbol.word}</h3>
+          {symbol.pronunciation && (
+            <div className="pronunciation-controls" onClick={playPronunciation}>
+              <button type="button" className="pronunciation-btn">
+                {isPlaying ? "◼" : "▶"}
+              </button>
+              <audio
+                ref={audioRef}
+                src={symbol.pronunciation}
+                onEnded={handleAudioEnd}
+              />
+            </div>
+          )}
           {showTranslation && (
             <p className="symbol-translation">{symbol.translation}</p>
           )}
@@ -41,6 +76,16 @@ const SymbolCard = ({
           <div className="card-back">
             <div className="card-back-content">
               <h3>{symbol.word}</h3>
+              {symbol.pronunciation && (
+                <div
+                  className="pronunciation-controls"
+                  onClick={playPronunciation}
+                >
+                  <button type="button" className="pronunciation-btn">
+                    {isPlaying ? "◼" : "▶"}
+                  </button>
+                </div>
+              )}
               <p className="translation">{symbol.translation}</p>
               <p className="category">
                 Category: <span>{symbol.category}</span>
@@ -65,6 +110,16 @@ const SymbolCard = ({
           <div className="details-content">
             <h3>{symbol.word}</h3>
             <p>{symbol.translation}</p>
+            {symbol.pronunciation && (
+              <div
+                className="pronunciation-controls"
+                onClick={playPronunciation}
+              >
+                <button type="button" className="pronunciation-btn">
+                  {isPlaying ? "◼" : "▶"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}

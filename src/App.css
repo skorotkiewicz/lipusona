@@ -40,3 +40,36 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Pronunciation button styles */
+.pronunciation-controls {
+  margin: 8px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.pronunciation-btn {
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pronunciation-btn:hover {
+  background-color: #535bf2;
+}
+
+/* Make sure pronunciation controls don't flip the card */
+.card-front .pronunciation-controls,
+.card-back .pronunciation-controls,
+.details-content .pronunciation-controls {
+  z-index: 10;
+  position: relative;
+}

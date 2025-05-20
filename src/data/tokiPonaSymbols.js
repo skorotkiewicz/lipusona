@@ -1,125 +1,173 @@
-export const tokiPonaSymbols = [
-  {
-    id: 1,
-    word: "a",
-    symbol: "https://i.imgur.com/Z5LYzpb.png",
-    translation: "ah, ha, uh, oh, ooh, wow, etc. (emotion or emphasis)",
-    category: "interjection",
-    examples: ["a a a!", "ona li pona a!"],
-  },
-  {
-    id: 2,
-    word: "akesi",
-    symbol: "https://i.imgur.com/zGNgdYP.png",
-    translation: "non-cute animal, reptile, amphibian",
-    category: "noun",
-    examples: ["akesi li lon telo.", "mi lukin e akesi seli."],
-  },
-  {
-    id: 3,
-    word: "ala",
-    symbol: "https://i.imgur.com/wXKB6TF.png",
-    translation: "no, not, none, un-, zero",
-    category: "modifier",
-    examples: ["mi ala wawa.", "jan ala li lon."],
-  },
-  {
-    id: 4,
-    word: "alasa",
-    symbol: "https://i.imgur.com/JzdtSj3.png",
-    translation: "to hunt, forage, seek",
-    category: "verb",
-    examples: ["mi alasa e soweli.", "ona li alasa e kili."],
-  },
-  {
-    id: 5,
-    word: "ale",
-    symbol: "https://i.imgur.com/5jy1g94.png",
-    translation: "all, everything, universe, 100",
-    category: "noun",
-    examples: ["ale li pona.", "mi wile e ale."],
-  },
-  {
-    id: 6,
-    word: "anpa",
-    symbol: "https://i.imgur.com/hDTQlmk.png",
-    translation: "bottom, lower, down, humble",
-    category: "modifier",
-    examples: ["ona li anpa.", "mi anpa e mi."],
-  },
-  {
-    id: 7,
-    word: "ante",
-    symbol: "https://i.imgur.com/I8WVKJO.png",
-    translation: "different, change, alter, modify",
-    category: "modifier",
-    examples: ["ni li ante.", "mi ante e ni."],
-  },
-  {
-    id: 8,
-    word: "awen",
-    symbol: "https://i.imgur.com/xIOg1GG.png",
-    translation: "stay, wait, remain, keep",
-    category: "verb",
-    examples: ["mi awen.", "o awen e ni."],
-  },
-  {
-    id: 9,
-    word: "e",
-    symbol: "https://i.imgur.com/Qc0rxhN.png",
-    translation: "(marks the direct object)",
-    category: "particle",
-    examples: ["mi lukin e sina.", "ona li pana e moku."],
-  },
-  {
-    id: 10,
-    word: "en",
-    symbol: "https://i.imgur.com/PF93YTY.png",
-    translation: "and (joins subjects)",
-    category: "particle",
-    examples: ["mi en sina li moku.", "soweli en waso li lon."],
-  },
-  {
-    id: 11,
-    word: "esun",
-    symbol: "https://i.imgur.com/MJcuxB0.png",
-    translation: "market, shop, trade, exchange",
-    category: "noun",
-    examples: ["mi lon esun.", "mi esun e moku."],
-  },
-  {
-    id: 12,
-    word: "ijo",
-    symbol: "https://i.imgur.com/xRjWVx9.png",
-    translation: "thing, object, matter, phenomenon",
-    category: "noun",
-    examples: ["ijo ni li pona.", "mi wile e ijo mute."],
-  },
-  // Additional symbols would continue here
-  {
-    id: 13,
-    word: "ike",
-    symbol: "https://i.imgur.com/EJU1OyX.png",
-    translation: "bad, negative, wrong, evil, complex",
-    category: "modifier",
-    examples: ["ni li ike.", "jan ike li kama."],
-  },
-  {
-    id: 14,
-    word: "ilo",
-    symbol: "https://i.imgur.com/9jLpeLn.png",
-    translation: "tool, machine, device, technology",
-    category: "noun",
-    examples: ["mi kepeken ilo.", "ilo ni li pona."],
-  },
-  {
-    id: 15,
-    word: "insa",
-    symbol: "https://i.imgur.com/n9gQIJI.png",
-    translation: "inside, internal, center, stomach",
-    category: "noun",
-    examples: ["mi insa e tomo.", "insa mi li pakala."],
-  },
-];
+// Simple TOML parser for our specific use case
+function parseToml(content) {
+  const result = {
+    audio: [],
+    representations: {},
+    ku_data: {},
+    pu_verbatim: {},
+  };
 
-// For a more complete app, extend this array to include all 120+ Toki Pona words
+  let currentSection = null;
+  let currentArrayItem = null;
+
+  // Process each line
+  content.split("\n").map((lines) => {
+    const line = lines.trim();
+
+    // Skip comments and empty lines
+    if (line.startsWith("#") || line === "") return;
+
+    // Handle array sections like [[audio]]
+    if (line.match(/^\[\[(\w+)\]\]$/)) {
+      const sectionName = line.match(/^\[\[(\w+)\]\]$/)[1];
+      currentSection = sectionName;
+      currentArrayItem = {};
+      if (!result[currentSection]) result[currentSection] = [];
+      result[currentSection].push(currentArrayItem);
+      return;
+    }
+
+    // Handle regular sections like [ku_data]
+    if (line.match(/^\[([^\]]+)\]$/)) {
+      const sectionName = line.match(/^\[([^\]]+)\]$/)[1];
+      currentSection = sectionName;
+      currentArrayItem = null;
+      if (!result[currentSection]) result[currentSection] = {};
+      return;
+    }
+
+    // Handle key-value pairs
+    const keyValueMatch = line.match(/^(\w+)\s*=\s*(.+)$/);
+    if (keyValueMatch) {
+      const key = keyValueMatch[1];
+      let value = keyValueMatch[2];
+
+      // Parse the value
+      if (value.startsWith('"') && value.endsWith('"')) {
+        // String value
+        value = value.substring(1, value.length - 1);
+      } else if (value.startsWith("[") && value.endsWith("]")) {
+        // Array value
+        value = value
+          .substring(1, value.length - 1)
+          .split(",")
+          .map((value) => {
+            const v = value.trim();
+            if (v.startsWith('"') && v.endsWith('"')) {
+              return v.substring(1, v.length - 1);
+            }
+            return v;
+          });
+      } else if (value === "true") {
+        value = true;
+      } else if (value === "false") {
+        value = false;
+      } else if (!Number.isNaN(Number.parseFloat(value))) {
+        value = Number.parseFloat(value);
+      }
+
+      // Add the key-value pair to the current section or root
+      if (currentArrayItem !== null) {
+        currentArrayItem[key] = value;
+      } else if (currentSection) {
+        result[currentSection][key] = value;
+      } else {
+        result[key] = value;
+      }
+    }
+  });
+
+  return result;
+}
+
+// Function to convert our TOML files to JS objects
+async function loadSymbolData() {
+  let id = 1;
+
+  try {
+    // Use dynamic import.meta.glob to get all TOML files
+    const symbolFiles = import.meta.glob("../symbols/*.toml", { as: "raw" });
+
+    // Process each TOML file
+    const symbolEntries = Object.entries(symbolFiles);
+
+    // Load all symbol files in parallel
+    const symbolsData = await Promise.all(
+      symbolEntries.map(async ([path, importFn]) => {
+        try {
+          const content = await importFn();
+          const filename = path.split("/").pop().replace(".toml", "");
+          const data = parseToml(content);
+
+          // Get the first audio link if available
+          const audioLink =
+            data.audio && data.audio.length > 0 ? data.audio[0].link : null;
+
+          // Get the sitelen sitelen image link
+          const sitelenSitelen = data.representations?.sitelen_sitelen || null;
+
+          // Extract high-confidence translations from ku_data (value >= 70)
+          const kuTranslations = data.ku_data
+            ? Object.entries(data.ku_data)
+                .filter(([_, value]) => value >= 70)
+                .map(([key]) => key)
+                .join(", ")
+            : "";
+
+          // Get category from pu_verbatim
+          const category = data.pu_verbatim?.en
+            ? data.pu_verbatim.en
+                .split(" ")[0]
+                .toLowerCase()
+                .replace(/[()]/g, "")
+            : "word";
+
+          // Create examples array
+          const examples = [];
+
+          return {
+            id: id++,
+            word: data.word || filename,
+            symbol: sitelenSitelen,
+            pronunciation: audioLink,
+            translation:
+              kuTranslations ||
+              (data.pu_verbatim?.en
+                ? data.pu_verbatim.en.replace(/^[^(]*\(|\)[^)]*$/g, "")
+                : ""),
+            category: category,
+            examples: examples,
+          };
+        } catch (error) {
+          console.error(`Error processing ${path}:`, error);
+          return null;
+        }
+      }),
+    );
+
+    // Filter out any null values and sort by word
+    return symbolsData
+      .filter(Boolean)
+      .sort((a, b) => a.word.localeCompare(b.word));
+  } catch (error) {
+    console.error("Error loading symbol data:", error);
+    return [];
+  }
+}
+
+// Initialize with empty array, will be populated when the data is loaded
+export let tokiPonaSymbols = [];
+
+// Load the symbols data immediately
+loadSymbolData().then((data) => {
+  tokiPonaSymbols = data;
+  console.log(`Loaded ${tokiPonaSymbols.length} Toki Pona symbols`);
+});
+
+// Export a function to get the symbols data programmatically
+export async function getSymbols() {
+  if (tokiPonaSymbols.length === 0) {
+    tokiPonaSymbols = await loadSymbolData();
+  }
+  return tokiPonaSymbols;
+}
