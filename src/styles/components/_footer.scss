@@ -1,0 +1,80 @@
+.footer {
+  background-color: darken($light-color, 5%);
+  padding: 3rem 0 2rem;
+  margin-top: 4rem;
+
+  .footer-content {
+    @include flex(row, space-between, flex-start);
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    @include respond-to("large") {
+      @include flex(column, flex-start, stretch);
+    }
+  }
+
+  .footer-section {
+    flex: 1;
+
+    h3 {
+      color: $primary-color;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -0.5rem;
+        width: 40px;
+        height: 2px;
+        background-color: $primary-color;
+      }
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: $text-light;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin-bottom: 0.5rem;
+
+        a {
+          color: $text-light;
+          text-decoration: none;
+          transition: color $transition-speed ease;
+
+          &:hover {
+            color: $primary-color;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .copyright {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid $border-color;
+
+    p {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: $text-light;
+    }
+
+    .toki-pona-text {
+      font-style: italic;
+      color: $primary-color;
+    }
+  }
+}
