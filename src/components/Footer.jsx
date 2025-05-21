@@ -53,6 +53,15 @@ const Footer = () => {
               </li>
               <li>
                 <a
+                  href="https://wasona.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <strong>Wasona:</strong> a crash course into Toki Pona
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://en.wikipedia.org/wiki/Toki_Pona"
                   target="_blank"
                   rel="noopener noreferrer"
