@@ -70,8 +70,8 @@ const SymbolCard = ({
                 <div className="examples">
                   <h4>Examples:</h4>
                   <ul>
-                    {symbol.examples.map((example, index) => (
-                      <li key={index}>{example}</li>
+                    {symbol.examples.map((example) => (
+                      <li key={example}>{example}</li>
                     ))}
                   </ul>
                 </div>
