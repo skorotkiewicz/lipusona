@@ -146,11 +146,7 @@ const LearningModule = ({ symbols, moduleTitle, moduleDescription }) => {
         <div className="quiz-content">
           <div className="quiz-question">
             <div className="quiz-symbol">
-              <img
-                src={currentSymbol.symbol}
-                alt="Quiz symbol"
-                className="quiz-symbol-image"
-              />
+              <h3 className="tokipona-symbol">{currentSymbol.word}</h3>
             </div>
             <h3>What does this symbol mean?</h3>
 

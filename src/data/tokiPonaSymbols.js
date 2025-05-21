@@ -86,7 +86,7 @@ async function loadSymbolData() {
 
   try {
     // Use dynamic import.meta.glob to get all TOML files
-    const symbolFiles = import.meta.glob("../symbols/*.toml", { as: "raw" });
+    const symbolFiles = import.meta.glob("../symbols/*.toml", { query: "?raw", import: "default" });
 
     // Process each TOML file
     const symbolEntries = Object.entries(symbolFiles);

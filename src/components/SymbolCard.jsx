@@ -48,18 +48,14 @@ const SymbolCard = ({
     >
       <div className="card-inner">
         <div className="card-front">
-          <div className="symbol-image">
-            <img
-              src={symbol.symbol}
-              alt={`Toki Pona symbol for ${symbol.word}`}
-            />
-          </div>
+          <div className="symbol-image">{symbol.word}</div>
           <h3 className="symbol-word">{symbol.word}</h3>
           {symbol.pronunciation && (
             <div className="pronunciation-controls" onClick={playPronunciation}>
               <button type="button" className="pronunciation-btn">
                 {isPlaying ? "◼" : "▶"}
               </button>
+              {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
               <audio
                 ref={audioRef}
                 src={symbol.pronunciation}
@@ -75,7 +71,7 @@ const SymbolCard = ({
         {interactive && (
           <div className="card-back">
             <div className="card-back-content">
-              <h3>{symbol.word}</h3>
+              <h3 className="tokipona-symbol">{symbol.word}</h3>
               {symbol.pronunciation && (
                 <div
                   className="pronunciation-controls"

@@ -100,7 +100,7 @@
 
   .pronunciation-controls {
     margin-top: 0.5rem;
-    
+
     .pronunciation-btn {
       background-color: $accent-color;
       color: white;
@@ -113,7 +113,7 @@
       justify-content: center;
       cursor: pointer;
       transition: all $transition-speed ease;
-      
+
       &:hover {
         background-color: color-mix(in srgb, $accent-color, black 10%);
       }
@@ -216,7 +216,7 @@
       }
     }
   }
-  
+
   // Styl dla widoku listy
   .symbols-page .symbols-container.list & {
     flex-direction: row;
@@ -224,61 +224,61 @@
     min-height: auto;
     padding: 1rem;
     margin-bottom: 1rem;
-    
+
     .card-inner {
-      position: static;  // Wyłączamy absolute positioning
+      position: static; // Wyłączamy absolute positioning
       min-height: auto;
       flex-direction: row;
       transform-style: flat;
       height: auto;
     }
-    
+
     &.flipped .card-inner {
-      transform: none;  // Wyłączamy obracanie w widoku listy
+      transform: none; // Wyłączamy obracanie w widoku listy
     }
-    
+
     .card-front {
-      position: static;  // Wyłączamy absolute positioning
+      position: static; // Wyłączamy absolute positioning
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
       height: auto;
       min-height: 80px;
-      
+
       .symbol-image {
         margin-bottom: 0;
         margin-right: 1.5rem;
         height: auto;
         width: auto;
         min-width: 80px;
-        
+
         img {
           max-width: 60px;
           max-height: 60px;
         }
       }
-      
+
       .symbol-word {
         text-align: left;
         margin-right: 1rem;
         width: auto;
         margin-bottom: 0;
       }
-      
+
       .symbol-translation {
         text-align: left;
         width: auto;
         margin-bottom: 0;
       }
-      
+
       .pronunciation-controls {
         margin-left: auto;
         margin-top: 0;
       }
     }
-    
+
     .card-back {
-      display: none;  // Wyłączamy back w widoku listy
+      display: none; // Wyłączamy back w widoku listy
     }
   }
 }
