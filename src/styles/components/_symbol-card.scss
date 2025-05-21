@@ -1,3 +1,6 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
 .symbol-card {
   background-color: white;
   border-radius: $border-radius;
@@ -112,7 +115,7 @@
       transition: all $transition-speed ease;
       
       &:hover {
-        background-color: darken($accent-color, 10%);
+        background-color: color-mix(in srgb, $accent-color, black 10%);
       }
     }
   }

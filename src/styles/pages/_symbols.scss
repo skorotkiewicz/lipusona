@@ -1,3 +1,6 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
 .symbols-page {
   padding: 2rem 0 4rem;
   background-color: $light-color;
@@ -97,7 +100,7 @@
         border-top-color: $secondary-color;
         
         .info-value {
-          color: darken($secondary-color, 30%);
+          color: color-mix(in srgb, $secondary-color, black 30%);
         }
       }
 
@@ -142,7 +145,7 @@
       }
 
       &:hover {
-        background-color: darken($light-color, 5%);
+        background-color: color-mix(in srgb, $light-color, black 5%);
         transform: translateY(-2px);
       }
 

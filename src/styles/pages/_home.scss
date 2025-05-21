@@ -1,9 +1,12 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
 .home-page {
   .hero {
     background: linear-gradient(
       135deg,
       $primary-color,
-      darken($primary-color, 15%)
+      color-mix(in srgb, $primary-color, black 15%)
     );
     padding: 8rem 0 4rem;
     margin-bottom: 4rem;
@@ -201,7 +204,7 @@
     background: linear-gradient(
       135deg,
       $secondary-color,
-      lighten($secondary-color, 10%)
+      color-mix(in srgb, $secondary-color, white 10%)
     );
 
     .get-started-content {

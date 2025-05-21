@@ -1,3 +1,6 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
 .learn-page {
   padding-top: 5rem;
 
@@ -42,7 +45,7 @@
         transition: all $transition-speed ease;
 
         &:hover {
-          background-color: darken($light-color, 5%);
+          background-color: color-mix(in srgb, $light-color, black 5%);
         }
 
         &.active {
@@ -51,7 +54,7 @@
           border-color: $primary-color;
 
           &:hover {
-            background-color: darken($primary-color, 5%);
+            background-color: color-mix(in srgb, $primary-color, black 5%);
           }
         }
       }
@@ -65,7 +68,7 @@
     margin-top: 3rem;
 
     h3 {
-      color: darken($secondary-color, 40%);
+      color: color-mix(in srgb, $secondary-color, black 40%);
       margin-bottom: 1rem;
     }
 
@@ -74,7 +77,7 @@
 
       li {
         margin-bottom: 0.5rem;
-        color: darken($secondary-color, 40%);
+        color: color-mix(in srgb, $secondary-color, black 40%);
 
         &:last-child {
           margin-bottom: 0;

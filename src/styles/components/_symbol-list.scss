@@ -1,3 +1,6 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
 .symbol-list {
   .filter-controls {
     margin-bottom: 2rem;
@@ -65,7 +68,7 @@
           transition: all $transition-speed ease;
           
           &:hover {
-            background-color: darken($light-color, 5%);
+            background-color: color-mix(in srgb, $light-color, black 5%);
             transform: translateY(-2px);
           }
 
@@ -76,8 +79,8 @@
             box-shadow: 0 2px 4px rgba($primary-color, 0.3);
 
             &:hover {
-              background-color: darken($primary-color, 10%);
-              border-color: darken($primary-color, 10%);
+              background-color: color-mix(in srgb, $primary-color, black 10%);
+              border-color: color-mix(in srgb, $primary-color, black 10%);
             }
           }
         }
