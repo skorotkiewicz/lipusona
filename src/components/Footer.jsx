@@ -60,6 +60,15 @@ const Footer = () => {
                   Wikipedia
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://github.com/skorotkiewicz/lipusona"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub source
+                </a>
+              </li>
             </ul>
           </div>
         </div>
