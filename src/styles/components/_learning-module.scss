@@ -26,7 +26,7 @@
       height: 10px;
       background-color: color-mix(in srgb, $primary-color, white 30%);
       border-radius: 5px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       position: relative;
       overflow: hidden;
       
@@ -50,31 +50,61 @@
       }
     }
     
-    .module-controls {
-      @include flex(row, flex-end, center);
+    .stats-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
       
-      .mode-toggle {
+      .stat {
         background-color: $light-color;
-        border: 2px solid $primary-color;
-        color: $primary-color;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius;
+        text-align: center;
+        
+        .stat-label {
+          font-size: 0.8rem;
+          color: $text-light;
+          display: block;
+        }
+        
+        .stat-value {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: $dark-color;
+        }
+      }
+    }
+    
+    .module-controls {
+      @include flex(row, center, center);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      
+      .mode-btn {
+        background-color: $light-color;
+        border: 2px solid $border-color;
+        color: $dark-color;
         padding: 0.5rem 1rem;
         border-radius: $border-radius;
         font-weight: 600;
         transition: all $transition-speed ease;
+        flex: 1;
+        min-width: 80px;
+        max-width: 150px;
         
         &:hover {
-          background-color: $primary-color;
-          color: white;
+          background-color: color-mix(in srgb, $light-color, black 5%);
+          border-color: $primary-color;
         }
         
-        &.quiz-active {
-          background-color: $accent-color;
-          border-color: $accent-color;
+        &.active {
+          background-color: $primary-color;
+          border-color: $primary-color;
           color: white;
           
           &:hover {
-            background-color: color-mix(in srgb, $accent-color, black 10%);
-            border-color: color-mix(in srgb, $accent-color, black 10%);
+            background-color: color-mix(in srgb, $primary-color, black 10%);
           }
         }
       }
@@ -94,35 +124,41 @@
         grid-template-columns: 1fr;
       }
       
-      .symbol-pronunciation {
-        @include flex(column, center, flex-start);
-        background-color: $light-color;
-        padding: 1.5rem;
-        border-radius: $border-radius;
+      .symbol-details {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
         
-        h4 {
-          margin: 0 0 1rem;
-          color: $dark-color;
-        }
-        
-        .phonetic-guide {
-          font-size: 1.5rem;
-          margin-bottom: 1rem;
-          font-weight: 600;
-          color: $primary-color;
-        }
-        
-        .audio-btn {
-          background-color: $primary-color;
-          color: white;
-          border: none;
-          padding: 0.5rem 1.5rem;
+        .symbol-pronunciation, .symbol-info {
+          @include flex(column, center, flex-start);
+          background-color: $light-color;
+          padding: 1.5rem;
           border-radius: $border-radius;
-          font-weight: 600;
-          transition: all $transition-speed ease;
           
-          &:hover {
-            background-color: color-mix(in srgb, $primary-color, black 10%);
+          h4 {
+            margin: 0 0 1rem;
+            color: $dark-color;
+          }
+          
+          .phonetic-guide {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: $primary-color;
+          }
+          
+          .audio-btn {
+            background-color: $primary-color;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: $border-radius;
+            font-weight: 600;
+            transition: all $transition-speed ease;
+            
+            &:hover {
+              background-color: color-mix(in srgb, $primary-color, black 10%);
+            }
           }
         }
       }
@@ -179,10 +215,10 @@
         @include flex(row, center, center);
         margin-bottom: 1rem;
         
-        .quiz-symbol-image {
-          width: 120px;
-          height: 120px;
-          object-fit: contain;
+        .tokipona-symbol {
+          font-family: 'TokiPona', sans-serif;
+          font-size: 3rem;
+          color: $primary-color;
         }
       }
       
@@ -253,6 +289,360 @@
           
           &:hover {
             background-color: color-mix(in srgb, $primary-color, black 10%);
+          }
+        }
+      }
+    }
+  }
+  
+  .sentence-content {
+    padding: 1.5rem;
+    background-color: $light-color;
+    border-radius: $border-radius;
+    
+    .sentence-exercise {
+      @include flex(column, center, center);
+      text-align: center;
+      
+      h3 {
+        margin-bottom: 1.5rem;
+        color: $dark-color;
+      }
+      
+      .sentence-display {
+        background-color: white;
+        padding: 2rem;
+        border-radius: $border-radius;
+        width: 100%;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        
+        .tokipona-sentence {
+          font-size: 1.8rem;
+          font-weight: 600;
+          color: $primary-color;
+          margin-bottom: 1rem;
+        }
+        
+        .sentence-translation {
+          font-size: 1.2rem;
+          color: $dark-color;
+          font-style: italic;
+          border-top: 1px solid $border-color;
+          padding-top: 0.5rem;
+        }
+      }
+      
+      .sentence-controls {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        
+        button {
+          padding: 0.5rem 1rem;
+          border-radius: $border-radius;
+          font-weight: 600;
+          transition: all $transition-speed ease;
+          
+          &.translation-btn {
+            background-color: $accent-color;
+            color: white;
+            border: none;
+            
+            &:hover {
+              background-color: color-mix(in srgb, $accent-color, black 10%);
+            }
+          }
+          
+          &.listen-btn {
+            background-color: $primary-color;
+            color: white;
+            border: none;
+            
+            &:hover {
+              background-color: color-mix(in srgb, $primary-color, black 10%);
+            }
+          }
+          
+          &.next-sentence-btn {
+            background-color: $light-color;
+            border: 1px solid $border-color;
+            color: $dark-color;
+            
+            &:hover {
+              background-color: color-mix(in srgb, $light-color, black 5%);
+              border-color: $primary-color;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .writing-content {
+    padding: 1.5rem;
+    background-color: $light-color;
+    border-radius: $border-radius;
+    
+    .writing-exercise {
+      @include flex(column, flex-start, stretch);
+      
+      h3 {
+        margin-bottom: 1.5rem;
+        color: $dark-color;
+        text-align: center;
+      }
+      
+      .symbol-to-write {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: $border-radius;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        
+        p {
+          margin-bottom: 0.5rem;
+          color: $text-light;
+        }
+        
+        .target-word {
+          font-size: 1.8rem;
+          color: $primary-color;
+        }
+      }
+      
+      .writing-input-area {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        
+        .writing-input {
+          flex: 1;
+          padding: 0.8rem;
+          border: 2px solid $border-color;
+          border-radius: $border-radius;
+          font-size: 1.1rem;
+          
+          &:focus {
+            border-color: $primary-color;
+            outline: none;
+          }
+        }
+        
+        .check-btn {
+          background-color: $primary-color;
+          color: white;
+          border: none;
+          padding: 0 1.5rem;
+          border-radius: $border-radius;
+          font-weight: 600;
+          transition: all $transition-speed ease;
+          
+          &:hover {
+            background-color: color-mix(in srgb, $primary-color, black 10%);
+          }
+        }
+      }
+      
+      .writing-result {
+        background-color: white;
+        padding: 1rem;
+        border-radius: $border-radius;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        
+        .correct-message {
+          color: #4CAF50;
+          font-weight: 600;
+        }
+        
+        .incorrect-message {
+          color: #F44336;
+          font-weight: 600;
+        }
+      }
+      
+      .drawing-area {
+        @include flex(column, center, center);
+        margin-bottom: 1.5rem;
+        
+        h4 {
+          margin-bottom: 1rem;
+          color: $dark-color;
+        }
+        
+        .drawing-canvas {
+          background-color: white;
+          border: 2px solid $border-color;
+          border-radius: $border-radius;
+          margin-bottom: 1rem;
+          cursor: crosshair;
+        }
+        
+        .clear-btn {
+          background-color: $light-color;
+          border: 1px solid $border-color;
+          padding: 0.5rem 1.5rem;
+          border-radius: $border-radius;
+          font-weight: 600;
+          transition: all $transition-speed ease;
+          
+          &:hover {
+            background-color: color-mix(in srgb, $light-color, black 5%);
+            border-color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+  
+  .review-content {
+    padding: 1.5rem;
+    background-color: $light-color;
+    border-radius: $border-radius;
+    
+    .review-exercise {
+      @include flex(column, center, stretch);
+      
+      h3 {
+        margin-bottom: 1.5rem;
+        color: $dark-color;
+        text-align: center;
+      }
+      
+      .symbol-showcase {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        
+        @include respond-to('medium') {
+          grid-template-columns: 1fr;
+        }
+        
+        .symbol-details {
+          .symbol-info {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: $border-radius;
+            margin-bottom: 1rem;
+            
+            h4 {
+              margin-bottom: 1rem;
+              color: $dark-color;
+              font-weight: 600;
+            }
+            
+            p {
+              margin-bottom: 1rem;
+              color: $text-light;
+            }
+            
+            .reveal-btn {
+              background-color: $accent-color;
+              color: white;
+              border: none;
+              padding: 0.5rem 1.5rem;
+              border-radius: $border-radius;
+              font-weight: 600;
+              transition: all $transition-speed ease;
+              
+              &:hover {
+                background-color: color-mix(in srgb, $accent-color, black 10%);
+              }
+            }
+          }
+          
+          .symbol-revealed {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: $border-radius;
+            
+            p {
+              margin-bottom: 0.8rem;
+              
+              strong {
+                color: $dark-color;
+              }
+            }
+            
+            .audio-btn {
+              margin-top: 0.5rem;
+              background-color: $primary-color;
+              color: white;
+              border: none;
+              padding: 0.5rem 1.5rem;
+              border-radius: $border-radius;
+              font-weight: 600;
+              transition: all $transition-speed ease;
+              
+              &:hover {
+                background-color: color-mix(in srgb, $primary-color, black 10%);
+              }
+            }
+          }
+        }
+      }
+      
+      .recall-quality {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: $border-radius;
+        text-align: center;
+        
+        h4 {
+          margin-bottom: 1rem;
+          color: $dark-color;
+        }
+        
+        .recall-buttons {
+          display: flex;
+          justify-content: space-around;
+          gap: 0.5rem;
+          
+          @include respond-to('medium') {
+            flex-direction: column;
+          }
+          
+          .recall-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: $border-radius;
+            font-weight: 600;
+            border: none;
+            flex: 1;
+            transition: all $transition-speed ease;
+            
+            &.hard {
+              background-color: #F44336;
+              color: white;
+              
+              &:hover {
+                background-color: color-mix(in srgb, #F44336, black 10%);
+              }
+            }
+            
+            &.okay {
+              background-color: #FFC107;
+              color: $dark-color;
+              
+              &:hover {
+                background-color: color-mix(in srgb, #FFC107, black 10%);
+              }
+            }
+            
+            &.easy {
+              background-color: #4CAF50;
+              color: white;
+              
+              &:hover {
+                background-color: color-mix(in srgb, #4CAF50, black 10%);
+              }
+            }
           }
         }
       }

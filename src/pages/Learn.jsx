@@ -6,9 +6,14 @@ const Learn = () => {
   const [activeModule, setActiveModule] = useState("basics");
 
   // Group symbols by category for different learning modules
-  const basicSymbols = tokiPonaSymbols
-    .filter((s) => ["particle", "modifier"].includes(s.category))
-    .slice(0, 5);
+  const basicSymbols = tokiPonaSymbols.filter((s) =>
+    ["particle", "modifier"].includes(s.category),
+  );
+
+  // const basicSymbols = tokiPonaSymbols
+  //   .filter((s) => ["particle", "modifier"].includes(s.category))
+  //   .slice(0, 5);
+
   const nounSymbols = tokiPonaSymbols.filter((s) => s.category === "noun");
   const verbSymbols = tokiPonaSymbols.filter((s) => s.category === "verb");
   const allSymbols = tokiPonaSymbols;
