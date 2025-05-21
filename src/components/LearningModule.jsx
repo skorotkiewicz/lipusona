@@ -634,7 +634,7 @@ const LearningModule = ({ symbols, moduleTitle, moduleDescription }) => {
                 onMouseMove={handleCanvasMouseMove}
                 onMouseUp={handleCanvasMouseUp}
                 onMouseLeave={handleCanvasMouseUp}
-              ></canvas>
+              />
               <button type="button" className="clear-btn" onClick={clearCanvas}>
                 Clear Drawing
               </button>
