@@ -44,6 +44,15 @@ const Footer = () => {
               </li>
               <li>
                 <a
+                  href="https://sona.pona.la/wiki/Main_Page"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Wiki for Toki Pona
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://en.wikipedia.org/wiki/Toki_Pona"
                   target="_blank"
                   rel="noopener noreferrer"
