@@ -118,9 +118,9 @@ const LearningModule = ({ symbols, moduleTitle, moduleDescription }) => {
             <div className="symbol-pronunciation">
               <h4>Practice Pronunciation</h4>
               <p className="phonetic-guide">{currentSymbol.word}</p>
-              <button type="button" className="audio-btn">
+              {/* <button type="button" className="audio-btn">
                 Listen
-              </button>
+              </button> */}
             </div>
           </div>
 
