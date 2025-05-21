@@ -86,7 +86,10 @@ async function loadSymbolData() {
 
   try {
     // Use dynamic import.meta.glob to get all TOML files
-    const symbolFiles = import.meta.glob("../symbols/*.toml", { query: "?raw", import: "default" });
+    const symbolFiles = import.meta.glob("../symbols/*.toml", {
+      query: "?raw",
+      import: "default",
+    });
 
     // Process each TOML file
     const symbolEntries = Object.entries(symbolFiles);
@@ -102,9 +105,6 @@ async function loadSymbolData() {
           // Get the first audio link if available
           const audioLink =
             data.audio && data.audio.length > 0 ? data.audio[0].link : null;
-
-          // Get the sitelen sitelen image link
-          const sitelenSitelen = data.representations?.sitelen_sitelen || null;
 
           // Extract high-confidence translations from ku_data (value >= 70)
           const kuTranslations = data.ku_data
@@ -125,18 +125,20 @@ async function loadSymbolData() {
           // Create examples array
           const examples = [];
 
+          // Get the word which will be used with the custom font
+          const word = data.word || filename;
+
           return {
             id: id++,
-            word: data.word || filename,
-            symbol: sitelenSitelen,
+            word,
             pronunciation: audioLink,
             translation:
               kuTranslations ||
               (data.pu_verbatim?.en
                 ? data.pu_verbatim.en.replace(/^[^(]*\(|\)[^)]*$/g, "")
                 : ""),
-            category: category,
-            examples: examples,
+            category,
+            examples,
           };
         } catch (error) {
           console.error(`Error processing ${path}:`, error);

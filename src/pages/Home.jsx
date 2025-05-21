@@ -62,7 +62,7 @@ const Home = () => {
               <div className="intro-symbols">
                 {featuredSymbols.map((symbol) => (
                   <div key={symbol.id} className="intro-symbol">
-                    <img src={symbol.symbol} alt={symbol.word} />
+                    <h3 className="tokipona-symbol">{symbol.word}</h3>
                     <div className="symbol-info">
                       <h3>{symbol.word}</h3>
                       <p>{symbol.translation}</p>
