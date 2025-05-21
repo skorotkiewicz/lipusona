@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import ReactHowler from "react-howler";
 
 const SymbolCard = ({
   symbol,
@@ -9,7 +10,6 @@ const SymbolCard = ({
   const [flipped, setFlipped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
 
   const handleClick = () => {
     if (interactive) {
@@ -22,18 +22,7 @@ const SymbolCard = ({
 
   const playPronunciation = (e) => {
     e.stopPropagation(); // Prevent card flip when clicking the audio button
-
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      } else {
-        audioRef.current.play().catch((error) => {
-          console.error("Error playing audio:", error);
-        });
-      }
-      setIsPlaying(!isPlaying);
-    }
+    setIsPlaying(!isPlaying);
   };
 
   // Handle audio end event
@@ -55,12 +44,13 @@ const SymbolCard = ({
               <button type="button" className="pronunciation-btn">
                 {isPlaying ? "◼" : "▶"}
               </button>
-              {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
-              <audio
-                ref={audioRef}
-                src={symbol.pronunciation}
-                onEnded={handleAudioEnd}
-              />
+              {isPlaying && (
+                <ReactHowler
+                  src={symbol.pronunciation}
+                  playing={isPlaying}
+                  onEnd={handleAudioEnd}
+                />
+              )}
             </div>
           )}
           {showTranslation && (
@@ -72,16 +62,6 @@ const SymbolCard = ({
           <div className="card-back">
             <div className="card-back-content">
               <h3 className="tokipona-symbol">{symbol.word}</h3>
-              {symbol.pronunciation && (
-                <div
-                  className="pronunciation-controls"
-                  onClick={playPronunciation}
-                >
-                  <button type="button" className="pronunciation-btn">
-                    {isPlaying ? "◼" : "▶"}
-                  </button>
-                </div>
-              )}
               <p className="translation">{symbol.translation}</p>
               <p className="category">
                 Category: <span>{symbol.category}</span>
@@ -114,6 +94,13 @@ const SymbolCard = ({
                 <button type="button" className="pronunciation-btn">
                   {isPlaying ? "◼" : "▶"}
                 </button>
+                {isPlaying && (
+                  <ReactHowler
+                    src={symbol.pronunciation}
+                    playing={isPlaying}
+                    onEnd={handleAudioEnd}
+                  />
+                )}
               </div>
             )}
           </div>
